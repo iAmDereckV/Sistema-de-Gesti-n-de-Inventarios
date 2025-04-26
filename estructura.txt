@@ -1,0 +1,14 @@
+src/
+│
+├── components/
+│   ├── Sidebar.js
+│   ├── TableComponent.js
+│   └── DashboardLayout.js
+│
+├── pages/
+│   └── Home.js
+│
+├── data/
+│   └── initialData.js
+│
+└── App.js
