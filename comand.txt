@@ -1,0 +1,8 @@
+npx create-react-app my-app
+cd my-app
+npm start
+
+
+dependencia
+npm install react-router-dom @mui/material @mui/icons-material @emotion/react @emotion/styled
+npm install react-bootstrap bootstrap  

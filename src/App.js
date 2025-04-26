@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import { Container, Table, Button, Form } from "react-bootstrap";
+import { Container, Row, Col, Nav, Table, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const initialData = {
@@ -89,8 +89,8 @@ const TableComponent = ({ title, dataKey, data, setData }) => {
   };
 
   return (
-    <Container>
-      <h2>{title}</h2>
+    <Container fluid>
+      <h2 className="mt-3">{title}</h2>
       <Table striped bordered hover>
         <thead>
           <tr>
@@ -143,29 +143,40 @@ const TableComponent = ({ title, dataKey, data, setData }) => {
           </Button>
         </Form>
       )}
-      <br />
-      <Button variant="secondary" as={Link} to="/">
-        Volver al Inicio
-      </Button>
+    </Container>
+  );
+};
+
+const DashboardLayout = ({ children }) => {
+  return (
+    <Container fluid>
+      <Row>
+        <Col md={2} className="bg-light vh-100 p-3">
+          <h4>Inventario</h4>
+          <Nav className="flex-column">
+            <Nav.Link as={Link} to="/">
+              Inicio
+            </Nav.Link>
+            {Object.keys(initialData).map((key) => (
+              <Nav.Link key={key} as={Link} to={`/${key}`}>
+                {key.charAt(0).toUpperCase() + key.slice(1)}
+              </Nav.Link>
+            ))}
+          </Nav>
+        </Col>
+        <Col md={10} className="p-4">
+          {children}
+        </Col>
+      </Row>
     </Container>
   );
 };
 
 const Home = () => (
-  <Container className="mt-4">
-    <h1>Sistema de Gestión de Inventarios</h1>
-    {Object.keys(initialData).map((key) => (
-      <Button
-        key={key}
-        variant="outline-primary"
-        className="m-2"
-        as={Link}
-        to={`/${key}`}
-      >
-        {key.charAt(0).toUpperCase() + key.slice(1)}
-      </Button>
-    ))}
-  </Container>
+  <div>
+    <h1>Bienvenido al Sistema de Inventario</h1>
+    <p>Selecciona una opción del menú para comenzar.</p>
+  </div>
 );
 
 const App = () => {
@@ -173,23 +184,25 @@ const App = () => {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {Object.keys(data).map((key) => (
-          <Route
-            key={key}
-            path={`/${key}`}
-            element={
-              <TableComponent
-                title={key.charAt(0).toUpperCase() + key.slice(1)}
-                dataKey={key}
-                data={data}
-                setData={setData}
-              />
-            }
-          />
-        ))}
-      </Routes>
+      <DashboardLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {Object.keys(data).map((key) => (
+            <Route
+              key={key}
+              path={`/${key}`}
+              element={
+                <TableComponent
+                  title={key.charAt(0).toUpperCase() + key.slice(1)}
+                  dataKey={key}
+                  data={data}
+                  setData={setData}
+                />
+              }
+            />
+          ))}
+        </Routes>
+      </DashboardLayout>
     </Router>
   );
 };
